@@ -16,4 +16,6 @@ function entrance_styles(){
 }
 
 add_action( 'wp_enqueue_scripts','entrance_styles' );
+include(get_template_directory().'/function/anish_function.php');
+
  ?>
