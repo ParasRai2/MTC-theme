@@ -1,33 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" style="margin-top:0px !important;">
 <head>
   <meta charset="utf-8">
   <title></title>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-  <!-- Bootstrap core CSS -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-  <!-- Material Design Bootstrap -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/mdb.min.css" rel="stylesheet">
-  <!-- Your custom styles (optional) -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/style.min.css" rel="stylesheet">
-  <!-- datatables -->
-  <link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/assets/css/addons/datatables.min.css">
-  <!-- hover.css -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/hover.css" rel="stylesheet">
-  <!-- owl Carousel -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/owl.carousel.min.css" rel="stylesheet">
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/owl.theme.default.min.css" rel="stylesheet">
-  <!-- flipclock -->
-  <link rel="stylesheet" href="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.css">
-  <!-- custom -->
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/custom.css" rel="stylesheet">
-  <link href="<?php echo get_template_directory_uri(); ?>/assets/css/magnum-custom.css" rel="stylesheet">
+  <?php wp_head(); ?>
 </head>
 <body>
   <!-- navigation bar start-->
   <nav class="mb-1 navbar navbar-expand-lg navbar-dark secondary-color sticky-top lighten-1 purple-gradient">
-    <img src="assets/images/logo_square.png" alt="" style="height:50px; padding-right:20px;">
+    <img src="<?php echo get_template_directory_uri() ?>/assets/images/logo_square.png" alt="" style="height:50px; padding-right:20px;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-5" aria-controls="navbarSupportedContent-5" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
