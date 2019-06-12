@@ -60,7 +60,7 @@
             <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0" alt="avatar image">
           </a>
           <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
-            <a class="dropdown-item waves-effect waves-light" href="#">Action</a>
+            <a class="dropdown-item waves-effect waves-light" href="<?php echo get_template_directory_uri(); ?>/login.php">Action</a>
             <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
             <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
           </div>

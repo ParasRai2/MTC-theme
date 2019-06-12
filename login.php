@@ -5,27 +5,27 @@
 	<!-- Font Awesome -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
 	<!-- Bootstrap core CSS -->
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Material Design Bootstrap -->
-	<link href="assets/css/mdb.min.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/mdb.min.css" rel="stylesheet">
 	<!-- Your custom styles (optional) -->
-	<link href="assets/css/style.min.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/style.min.css" rel="stylesheet">
 	<!-- datatables -->
-	<link rel="stylesheet" type="text/css" href="assets/css/addons/datatables.min.css">
+	<link rel="stylesheet" type="text/css" href="<?php echo get_template_directory_uri(); ?>/assets/css/addons/datatables.min.css">
 	<!-- hover.css -->
-	<link href="assets/css/hover.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/hover.css" rel="stylesheet">
 	<!-- owl Carousel -->
-	<link href="assets/css/owl.carousel.min.css" rel="stylesheet">
-	<link href="assets/css/owl.theme.default.min.css" rel="stylesheet">
-	<link href="assets/css/custom.css" rel="stylesheet">
-	<link href="assets/css/magnum-custom.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/owl.carousel.min.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/owl.theme.default.min.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/custom.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/magnum-custom.css" rel="stylesheet">
 
 	<!-- My Css -->
 
-	<link href="assets/css/par-css/par.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/par-css/par.css" rel="stylesheet">
 
 	
-	<link href="assets/css/magnum-custom.css" rel="stylesheet">
+	<link href="<?php echo get_template_directory_uri(); ?>/assets/css/magnum-custom.css" rel="stylesheet">
 
 
 
@@ -87,24 +87,24 @@
 	</div>
 
 	<!-- JQuery -->
-	<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
 	<!-- Bootstrap tooltips -->
-	<script type="text/javascript" src="assets/js/popper.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
 	<!-- Bootstrap core JavaScript -->
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
 	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="assets/js/mdb.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
 	<!-- Initializations -->
-	<script type="text/javascript" src="assets/js/custom.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
 	<!-- data-table -->
-	<script type="text/javascript" src="assets/js/addons/datatables.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
 	<!-- owl Carousel -->
-	<script type="text/javascript" src="assets/js/owl.carousel.min.js"></script>
+	<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
 
-	<script src="compiled/flipclock.js"></script>	
+	<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>	
 
-	<script src="assets/js/fullScreen.js" type="text/javascript"></script>
-	<script src="assets/js/par-js/par-js.js"></script>
+	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
+	<script src="<?php echo get_template_directory_uri(); ?>/assets/js/par-js/par-js.js"></script>
 
 
 </body>
