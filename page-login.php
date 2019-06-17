@@ -27,7 +27,7 @@
 
 	$data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
-	if(!empty($data))
+	if(!empty($uname))
 	{ 
 		foreach($data as $row){
 			if( $row->Name == $uname && $row->Password == $pass )
