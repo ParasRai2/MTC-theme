@@ -1,5 +1,26 @@
+<?php
+
+	session_start();
+	$id = $_SESSION['id']; 
+
+	global $wpdb;
+
+	$table_name = $wpdb->prefix . "student_table";
+
+	$data = $wpdb->get_results( "SELECT * FROM $table_name WHERE Id = $id" );
+
+	if(!empty($data))
+	{ 
+		foreach($data as $row){
+			$name = $row->Name;
+			$status = $row->Status;
+			$roll = $row->Roll_no;
+		}
+			
+	}
 
 
+?>
 
 
 <!DOCTYPE html>
@@ -44,7 +65,8 @@
 						<div class="container-fluid row">
 							<div class="col-7">
 								<h5 class="form-text-color">
-									User Name : Pradeep Bahadur Dahal
+									Full Name : <?php echo $name; ?><br>
+									Roll No. : <?php echo $roll; ?>
 								</h5>
 							</div>
 							<div class="col-5 text-center">
@@ -52,8 +74,17 @@
 									Test Status
 								</h5>
 								<div class="container-fluid text-center">
+									<?php 
+										if ($status):
+										?>
 									<span class="status ml-1 mr-1 pl-2 pr-2 active"> Available </span>
+									<?php 
+										else:
+									?>
 									<span class="status ml-1 mr-1 pl-2 pr-2 inactive"> Unavailable</span>
+									<?php 
+										endif
+									?>
 								</div>
 
 							</div>
@@ -73,7 +104,13 @@
 						</div>
 						<div class="container-fluid">
 							<form action="index.php">
-								<button class="float-right btn btn-purple-color btn-rounded z-depth-0 my-4 waves-effect" type="submit">Start</button>
+								<button class="float-right btn btn-purple-color btn-rounded z-depth-0 my-4 waves-effect" type="submit"
+								<?php 
+									if(!$status)
+										echo 'disabled';
+								?>
+
+								>Start</button>
 							</form>
 						</div>
 					</div>

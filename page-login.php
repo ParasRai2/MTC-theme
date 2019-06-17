@@ -1,4 +1,6 @@
 <?php
+
+
     function theme_get_permalink_by_title( $title ) {
 
 	    // Initialize the permalink value
@@ -30,15 +32,16 @@
 		foreach($data as $row){
 			if( $row->Name == $uname && $row->Password == $pass )
 			{	
-
-				
-				echo "<script> alert('Logged In'); </script>";
+				session_start();
+				$_SESSION['id'] = $row->Id;
 				wp_redirect( theme_get_permalink_by_title( 'student-info' ) );
 				die;
 			}
 		}
-		
+			
+		echo "<script> alert('Username Not Found'); </script>";
 	}
+
 
 
 ?>
