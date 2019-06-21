@@ -1,4 +1,17 @@
 <!DOCTYPE html>
+<?php
+
+
+	global $wpdb;
+	$table_name = $wpdb->prefix ."time_table";
+	$data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+	foreach ($data as $row){
+		$date = $row->Date; 
+		$time = $row->Time;
+	}
+?>
+
 <html>
 <head>
 	<title>Welcome | Wait for Sometime</title>
@@ -69,7 +82,41 @@
 	<script src="<?php echo get_bloginfo("template_url"); ?>/compiled/flipclock.js"></script>	
 
 	<script src="<?php echo get_bloginfo("template_url"); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
-	<script src="<?php echo get_bloginfo("template_url"); ?>/assets/js/par-js/countdown.js"></script>
+	<script>
+		
+		var clock;
+		var currentTime;
+		var startTime;
+		var diff;
+
+
+		$(document).ready(function() {
+			currentTime = new Date();
+			startTime = new Date("<?php echo $date . ' '. $time; ?>");
+			diff = (startTime - currentTime)/1000;
+			if(diff<0)
+			{
+				$("#Login-Info").html("You're Late");
+				alert("Direct goto Question Section");
+
+        		var url = "student-info.php";
+				$(location).prop('href',url);
+			}
+			else
+			{
+				clock = $('.clock').FlipClock( parseInt(diff), {
+			        clockFace: 'MinuteCounter',
+			        countdown: true,
+			        callbacks: {
+			        	stop: function() {
+			        		var url = "student-info.php";
+							$(location).prop('href',url);
+			        	}
+			        }
+			    });
+			}
+		});
+	</script>
 
 
 </body>
