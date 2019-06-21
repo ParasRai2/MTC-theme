@@ -18,7 +18,7 @@
 
 	} // end theme_get_permalink_by_title
 
-	$uname = $_POST['uname'];
+	$roll = $_POST['roll'];
 	$pass = $_POST['pass'];
 
 	global $wpdb;
@@ -27,10 +27,10 @@
 
 	$data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
-	if(!empty($uname))
+	if(!empty($roll))
 	{ 
 		foreach($data as $row){
-			if( $row->Name == $uname && $row->Password == $pass )
+			if( $row->Roll_no == $roll && $row->Password == $pass )
 			{	
 				session_start();
 				$_SESSION['id'] = $row->Id;
@@ -110,8 +110,8 @@
 						<form class="text-center" action="" method="post">
 							<!-- Name -->
 				            <div class="md-form mt-4">
-				                <input type="text" id="materialSubscriptionFormName" class="form-control form-text-color" name="uname" required>
-				                <label class="form-text-color" for="materialSubscriptionFormName">User Name</label>
+				                <input type="text" id="materialSubscriptionFormName" class="form-control form-text-color" name="roll" required>
+				                <label class="form-text-color" for="materialSubscriptionFormName">Roll Number</label>
 				            </div>
 
 				            <!-- E-mai -->

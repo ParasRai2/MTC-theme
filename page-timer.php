@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <?php
-
-
 	global $wpdb;
 	$table_name = $wpdb->prefix ."time_table";
 	$data = $wpdb->get_results( "SELECT * FROM $table_name" );
@@ -11,7 +9,6 @@
 		$time = $row->Time;
 	}
 ?>
-
 <html>
 <head>
 	<title>Welcome | Wait for Sometime</title>
@@ -53,7 +50,6 @@
 			<img src="<?php echo get_bloginfo("template_url"); ?>/assets/images/mercury_logo.svg" height="120"><br>
 			ENTRANCE EXAMINATION<br>
 			Count Down
-		
 	</div>
 	<div class="container" style="padding-left: 29.75%;">
 		
@@ -82,7 +78,7 @@
 	<script src="<?php echo get_bloginfo("template_url"); ?>/compiled/flipclock.js"></script>	
 
 	<script src="<?php echo get_bloginfo("template_url"); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
-	<script>
+	<script type="text/javascript">
 		
 		var clock;
 		var currentTime;
@@ -97,9 +93,9 @@
 			if(diff<0)
 			{
 				$("#Login-Info").html("You're Late");
-				alert("Direct goto Question Section");
+				alert("Direct going into Question Section");
 
-        		var url = "student-info.php";
+        		var url = <?php echo "'".get_page_link(get_page_by_title( "student-info")) ."'"; ?>;
 				$(location).prop('href',url);
 			}
 			else
@@ -109,7 +105,7 @@
 			        countdown: true,
 			        callbacks: {
 			        	stop: function() {
-			        		var url = "student-info.php";
+			        		var url = <?php echo "'".get_page_link(get_page_by_title( "student-info")) ."'"; ?>;
 							$(location).prop('href',url);
 			        	}
 			        }
