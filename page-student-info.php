@@ -91,10 +91,10 @@
 									    <p class="white-text">Zoom effect</p>
 									</div>
 								</div>
-						        <h4 class="form-text-color mt-1">
+						        <div class="form-text-color mt-1 h5">
 					          		<?php echo $name; ?><br>
 									<?php echo $roll; ?>
-								</h4>
+								</div>
 						        <hr>
 					          	<!--Detail-->
 					          	<div class="container-fluid row form-text-color text-left">
@@ -107,43 +107,37 @@
 					          	</div>
 						    </div>
 
-							<div class="col-5 text-center pt-5">
+							<div class="col-5 container-fluid text-center pt-5">
 								<span class="form-text-color h5 mt-3">
 									Test Status
 								</span>
-								<div class="container-fluid text-center">
+								<div class="container-fluid text-center mb-2">
 									<?php 
 										if ($status):
 										?>
-									<span class="status ml-1 mr-1 pl-2 pr-2 active"> Available </span>
+									<span class="status ml-1 mr-1 pl-2 pr-2 active" onclick="clicked()"> Available </span>
 									<?php 
 										else:
 									?>
-									<span class="status ml-1 mr-1 pl-2 pr-2 inactive"> Unavailable</span>
+									<span class="status ml-1 mr-1 pl-2 pr-2 inactive" onclick="clicked()"> Unavailable</span>
 									<?php 
 										endif
 									?>
 								</div>
-								<div class="container-fluid row mt-3">
-									
-									<div class="col-12 text-center">
-										<h5 class="form-text-color" style="font-size: 12px;">
-											<?php 
-												if($status)
-													echo 'Check your detail and click Start to start examination';
-												else
-													echo "<span class='text-danger'>You're not allow to take test. Please contact your consultancy</span>";
-											?>
-										</h5>
-									</div>
-									<div class="col-12 form-text-color row container-fluid text-left">
-										<div class="col-8 text-right">Time Duration :</div> 
-										<div class="col-4"> 1 hour </div>
-										<div class="col-8 text-right">No. of Questions :</div> 
-										<div class="col-4">50</div>
-									</div>
+								<div class="col-12 text-success h6" style="font-size: 12px;" id="mess">
+										<?php 
+											if($status)
+												echo 'Check your detail and click Start to start examination';
+											else
+												echo "<span class='text-danger'>You're not allow to take test. Please contact your consultancy</span>";
+										?>
 								</div>
-
+								<div class="col-12 form-text-color row container-fluid text-left mt-3">
+									<div class="col-8 text-right">Time Duration :</div> 
+									<div class="col-4"> 1 hour </div>
+									<div class="col-8 text-right">No. of Questions :</div> 
+									<div class="col-4">50</div>
+								</div>
 							</div>
 						</div>
 
@@ -180,6 +174,16 @@
 
 
 	<script src="<?php echo get_bloginfo("template_url"); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		function clicked()
+		{
+			$("#mess").css("font-size", "14px");
+			window.setTimeout(function(){ 
+				$("#mess").css("font-size", "12px");
+			}, 1200);
+		}
+	</script>
+
 
 </body>
 </html>

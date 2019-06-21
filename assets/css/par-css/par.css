@@ -1,7 +1,8 @@
 #Login-Page{
 	background-image: url('../../images/cover-bg.jpg');
 	background-repeat: no-repeat;
-	background-size: 100% auto;
+	background-size: 100% 100%;
+  	background-attachment: fixed;
 }
 #Login-Info
 {
@@ -52,6 +53,12 @@
 	font-size: 12px;
 	font-weight: bold;
 	color: white;
+	cursor: pointer;
+}
+.status:hover
+{
+	font-size: 15px;
+	padding: 2px;
 }
 .status.active{
 	border:  2px solid #00C851;
