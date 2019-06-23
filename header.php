@@ -30,7 +30,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <button type="button" class="btn btn-success btn-md waves-effect waves-light">Submit</button>
+          <button type="button" class="btn btn-success btn-md waves-effect waves-light"  onclick="submitAns()">Submit</button>
           </a>
         </li>
         <li class="nav-item">

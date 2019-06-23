@@ -95,7 +95,7 @@
 				$("#Login-Info").html("You're Late");
 				alert("Direct going into Question Section");
 
-        		var url = <?php echo "'".get_page_link(get_page_by_title( "student-info")) ."'"; ?>;
+        		var url = <?php echo "'".get_page_link(get_page_by_title( "questions")) ."'"; ?>;
 				$(location).prop('href',url);
 			}
 			else
@@ -105,7 +105,7 @@
 			        countdown: true,
 			        callbacks: {
 			        	stop: function() {
-			        		var url = <?php echo "'".get_page_link(get_page_by_title( "student-info")) ."'"; ?>;
+			        		var url = <?php echo "'".get_page_link(get_page_by_title( "questions")) ."'"; ?>;
 							$(location).prop('href',url);
 			        	}
 			        }
