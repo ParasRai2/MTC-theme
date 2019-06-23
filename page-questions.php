@@ -8,7 +8,7 @@
   $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT 25" );
 
 ?>
-<form action="<?php echo esc_url(home_url("/index.php/saveAns")); ?>" method="post" id="subQuestion">
+<form action="<?php echo get_permalink(get_page_by_path('saveAns')); ?>" method="post" id="subQuestion">
 <section class="questions">
   <div class="row">
     <div class="col-md-8">
@@ -64,7 +64,7 @@
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>">
                   <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->Opt4; ?></label>
                 </div>
-
+                <input type="hidden" name="Ans<?php echo $i; ?>" value="<?php echo $row->Ans; ?>">
               </div>
               <hr>
               <?php
