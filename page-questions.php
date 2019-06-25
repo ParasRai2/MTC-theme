@@ -8,7 +8,7 @@
   $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT 25" );
 
 ?>
-<form action="<?php echo get_permalink(get_page_by_path('saveAns')); ?>" method="post" id="subQuestion">
+<form action="<?php echo get_permalink(get_page_by_title('save-ans')); ?>" method="post" id="subQuestion">
 <section class="questions">
   <div class="row">
     <div class="col-md-8">
@@ -43,25 +43,25 @@
                 <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->ID; ?>">
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
-                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-1" name="question<?php echo $i; ?>">
+                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-1" name="question<?php echo $i; ?>" value = "1">
                   <label class="form-check-label" for="q<?php echo $i; ?>-1"><?php echo $row->Opt1; ?></label>
                 </div>
                
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
-                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-2" name="question<?php echo $i; ?>">
+                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-2" name="question<?php echo $i; ?>" value="2">
                   <label class="form-check-label" for="q<?php echo $i; ?>-2"><?php echo $row->Opt2; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
-                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-3" name="question<?php echo $i; ?>">
+                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-3" name="question<?php echo $i; ?>" value="3">
                   <label class="form-check-label" for="q<?php echo $i; ?>-3"><?php echo $row->Opt3; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
-                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>">
+                  <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>" value = "4">
                   <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->Opt4; ?></label>
                 </div>
                 <input type="hidden" name="Ans<?php echo $i; ?>" value="<?php echo $row->Ans; ?>">

@@ -15,26 +15,40 @@
 <script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
 <!-- flipclock -->
 <script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
+<?php
+  global $wpdb;
+  $table_name = $wpdb->prefix ."time_table";
+  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
+  foreach ($data as $row){
+    $date = $row->Date; 
+    $time = $row->Time;
+  }
+?>
 <script type="text/javascript">
-  var clock;
-  var currentTime;
-  var startTime;
-  var diff;
-  $(document).ready(function() {
-    currentTime = new Date();
-    startTime = new Date("June 10, 2019 06:35:00");
-    diff = (startTime - currentTime)/1000;
-    clock = $('.clock').FlipClock( parseInt(diff), {
-          clockFace: 'MinuteCounter',
-          countdown: true,
-          callbacks: {
-            stop: function() {
-              $('.message').html('The clock has stopped!');
+    
+    var clock;
+    var currentTime;
+    var startTime;
+    var diff;
+
+
+    $(document).ready(function() {
+      currentTime = new Date();
+      startTime = new Date("<?php echo $date . ' '. $time; ?>");
+      diff = (startTime - currentTime)/1000;
+      diff = diff + 30*60;
+      clock = $('#nav-clock').FlipClock( parseInt(diff), {
+            clockFace: 'MinuteCounter',
+            countdown: true,
+            callbacks: {
+              stop: function() {
+                alert("Time Up! Auto Submitting");
+                $("#subQuestion").submit();
+              }
             }
-          }
-      });
-  });
+        });
+    });
 
 </script>
 </body>
