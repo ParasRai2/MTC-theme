@@ -1,11 +1,20 @@
 <?php 
   get_header();
+  global $wpdb;
+  $table_name = $wpdb->prefix ."time_table";
+  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+  foreach ($data as $row){
+    $date = $row->Date; 
+    $time = $row->Time;
+    $duration = $row->Duration;
+    $qno = $row->QNo;
+  }
   session_start();
   $id = $_SESSION['id']; 
 
-  global $wpdb;
   $table_name = $wpdb->prefix ."question_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT 25" );
+  $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT ".$qno );
 
 ?>
 <form action="<?php echo get_permalink(get_page_by_title('save-ans')); ?>" method="post" id="subQuestion">
@@ -24,7 +33,6 @@
               $i=0;
               $j=1;
               foreach ($data as $row) {
-
                 if(is_int($i/5))
                 { 
             ?>
@@ -81,12 +89,16 @@
 
         <nav>
           <ul class="pagination pg-purple justify-content-center">
-            
-            <li class="page-item active" id="pagebtn1"><a class="page-link waves-effect waves-effect" onclick="pageclick(1)">1</a></li>
-            <li class="page-item" id="pagebtn2"><a class="page-link waves-effect waves-effect" onclick="pageclick(2)">2</a></li>
-            <li class="page-item" id="pagebtn3"><a class="page-link waves-effect waves-effect" onclick="pageclick(3)">3</a></li>
-            <li class="page-item" id="pagebtn4"><a class="page-link waves-effect waves-effect" onclick="pageclick(4)">4</a></li>
-            <li class="page-item" id="pagebtn5"><a class="page-link waves-effect waves-effect" onclick="pageclick(5)">5</a></li>
+            <?php
+              for($i=1; $i<= (int)($qno/5); $i++)
+              {
+                ?>
+            <li class="page-item <?php if($i==1) echo 'active'; ?>" id="pagebtn1">
+              <a class="page-link waves-effect waves-effect" onclick="pageclick('<?php echo $i; ?>')"><?php echo $i; ?></a>
+            </li>
+            <?php
+              }
+              ?>
           
           </ul>
         </nav>
@@ -120,7 +132,7 @@
           </div>
           <hr>
           <div class="flex-container">
-            <?php for ($i=1; $i <= 25; $i++) {
+            <?php for ($i=1; $i <= $qno; $i++) {
               ?>
               <div>
                 <button type="button" class="btn btn-danger btn-sm" style="width:70px;" onclick="pageclick(<?php echo (int)((($i-1)/5)+1); ?>)" id="questionbtn<?php echo $i; ?>"><?php echo $i; ?></button>
@@ -134,34 +146,26 @@
   </div>
 </section>
 </form>
- <?php get_footer(); ?>
+<?php get_footer(); ?>
 
 <script type="text/javascript">
   function dnoneAll()
   {
-    $("#page1").removeClass("d-block");
-    $("#page2").removeClass("d-block");
-    $("#page3").removeClass("d-block");
-    $("#page4").removeClass("d-block");
-    $("#page5").removeClass("d-block");
-    $("#page1").addClass("d-none");
-    $("#page2").addClass("d-none");
-    $("#page3").addClass("d-none");
-    $("#page4").addClass("d-none");
-    $("#page5").addClass("d-none");
-    $("#pagebtn1").removeClass("active");
-    $("#pagebtn2").removeClass("active");
-    $("#pagebtn3").removeClass("active");
-    $("#pagebtn4").removeClass("active");
-    $("#pagebtn5").removeClass("active");
+    var i;
+    for(i=1 ; i<= <?php echo (int)($qno/5); ?>;i++  )
+    {
+      $("#page"+i).removeClass("d-block");
+      $("#page"+i).addClass("d-none");
+      $("#pagebtn"+i).removeClass("active");
+    }
   }
   function pageclick(pid)
   {
     dnoneAll()
     $("#page"+pid).addClass("d-block")
     $("#pagebtn"+pid).addClass("active");
-
   }
+
   $("#page1").removeClass("d-none");
   $("#page1").addClass("d-block");
 
@@ -172,15 +176,18 @@
     var i;
     var status;
     var name;
-    for (i = 1; i <= 25; i++) { 
+    var attem=0;
+    for (i = 1; i <= <?php echo $qno; ?>; i++) { 
       name = "question"+i;
       status = $('[name="'+name+'"]').is(':checked');
       if(status)
       {
         $('#questionbtn'+i).removeClass("btn-danger");
         $('#questionbtn'+i).addClass("btn-info");
+        attem++;
       }
     }
+    $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
   },800);
   function submitAns()
   {

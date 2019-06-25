@@ -1,5 +1,10 @@
 <?php
-	
+  $table_name = $wpdb->prefix ."time_table";
+  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+  foreach ($data as $row){
+    $qno = $row->QNo;
+  }
 	global $wpdb;
 	$table_name1 = $wpdb->prefix ."result_table";
 	$table_name2 = $wpdb->prefix ."student_table";
@@ -14,7 +19,7 @@
 
 	$submit = 0;
 	$correct = 0;
-	for($j=1;$j<=25;$j++)
+	for($j=1;$j<=$qno;$j++)
 	{
 		$s = "qid".$j;
 		$qid = $data->$s;
@@ -25,21 +30,18 @@
 		$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE `ID` = $qid " );
 		$question = $row->Question;
 		$s = "Opt".$ans;
-		$submittedAns = $row->$s;
+		$submittedAns = "NaN";
 		$cno = $row->Ans;
 		$s = "Opt".$cno;
 		$correctAns = $row->$s;
 		if($ans != 0)
 		{
 			$submit++;
+			$submittedAns = $row->$s;
 			if($row->Ans == $ans)
 			{
 				$correct++;
 			}
-		}
-		else
-		{
-			$submitted = 'NaN';
 		}
 
 		$qna = array($question, $submittedAns, $correctAns);
@@ -113,7 +115,7 @@
 										</thead>
 										<tbody>
 											<?php
-												for ($i=1; $i<=25; $i++)
+												for ($i=1; $i<=$qno; $i++)
 												{
 
 											?>

@@ -1,12 +1,20 @@
 <?php
+global $wpdb;
+$table_name = $wpdb->prefix ."time_table";
+$data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+foreach ($data as $row){
+  $qno = $row->QNo;
+}
+
 session_start();
 $sid = $_SESSION['id'];
+echo $sid;
 
-global $wpdb;
 $table_name = $wpdb->prefix ."result_table";
 $data= array('sid' => $sid);
 $data_type = array("%d");
-for ($i = 1; $i<=25; $i++ )
+for ($i = 1; $i<=$qno; $i++ )
 {
   $name = "q".$i."id";
   $qid = $_POST[$name];
@@ -25,9 +33,11 @@ for ($i = 1; $i<=25; $i++ )
 } 
 
 
-$wpdb->insert( $table_name, 
+$result = $wpdb->insert( $table_name, 
   $data,
   $data_type
 );
-wp_redirect( get_permalink(get_page_by_title( 'end' ) ) );
+echo $result;
+
+//wp_redirect( get_permalink(get_page_by_title( 'end' ) ) );
 ?>

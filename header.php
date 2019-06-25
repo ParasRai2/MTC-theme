@@ -1,6 +1,18 @@
+<?php
+  session_start();
+  $id = $_SESSION['id']; 
+
+  $table_name = $wpdb->prefix ."student_table";
+  $student = $wpdb->get_row( "SELECT * FROM $table_name WHERE Id = $id" );
+
+  $table_name = $wpdb->prefix ."time_table";
+  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+  foreach ($data as $row){
+    $qno = $row->QNo;
+  }
+?>
 <!DOCTYPE html>
-
-
 <html lang="en" dir="ltr" style="margin-top:0px !important;">
 <head>
   <meta charset="utf-8">
@@ -22,7 +34,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <span class="nav-link waves-effect waves-light">Attempted: <spab>0/100</spab></span>
+          <span class="nav-link waves-effect waves-light">Attempted: <spab id="attempted">0/<?php echo $qno; ?></spab></span>
         </li>
       </ul>
       <ul class="navbar-nav ml-auto nav-flex-icons">
@@ -35,17 +47,13 @@
           <button type="button" class="btn btn-success btn-md waves-effect waves-light"  onclick="submitAns()">Submit</button>
           </a>
         </li>
-        <li class="nav-item">
-          <button type="button" class="btn btn-danger btn-md waves-effect waves-light">Give-Up</button>
-        </li>
         <li class="nav-item avatar dropdown">
           <a class="nav-link dropdown-toggle waves-effect waves-light" id="navbarDropdownMenuLink-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0" alt="avatar image">
           </a>
           <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
-            <a class="dropdown-item waves-effect waves-light" href="<?php echo get_template_directory_uri(); ?>/login.php">Action</a>
-            <a class="dropdown-item waves-effect waves-light" href="#">Another action</a>
-            <a class="dropdown-item waves-effect waves-light" href="#">Something else here</a>
+            <a class="dropdown-item"><?php echo $student->Name; ?></a>
+            <a class="dropdown-item"><?php echo $student->Roll_no; ?></a>
           </div>
         </li>
       </ul>

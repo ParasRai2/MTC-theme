@@ -1,4 +1,15 @@
 <?php
+global $wpdb;
+$table_name = $wpdb->prefix ."time_table";
+$data = $wpdb->get_results( "SELECT * FROM $table_name" );
+
+foreach ($data as $row){
+	$date = $row->Date; 
+	$time = $row->Time;
+	$duration = $row->Duration;
+	$qno = $row->QNo;
+	$pass= $row->Passmark;
+}
 
 global $wpdb;
 $table_name1 = $wpdb->prefix ."result_table";
@@ -14,7 +25,7 @@ $table_data = array();
 
 $submit = 0;
 $correct = 0;
-for($j=1;$j<=25;$j++)
+for($j=1;$j<=$qno;$j++)
 {
 	$s = "qid".$j;
 	$qid = $data->$s;
@@ -102,8 +113,8 @@ for($j=1;$j<=25;$j++)
 								<?php echo $roll; ?><br>
 								<span class="h6">
 									<?php 
-										echo "Submitted : ".$submit. " | Correct : ".$correct. " | Score : " .$correct."/25 | Result : " ;
-								  		if($correct>=8)
+										echo "Submitted : ".$submit. " | Correct : ".$correct. " | Score : " .$correct."/".$qno." | Result : " ;
+								  		if($correct>=$pass)
 								  			echo "<span class='text-success'>Passed</span>";
 								  		else
 								  			echo "<span class='text-danger'>Failed</span>";
@@ -127,7 +138,7 @@ for($j=1;$j<=25;$j++)
 									</thead>
 									<tbody>
 										<?php
-										for ($i=1; $i<=25; $i++)
+										for ($i=1; $i<=$qno; $i++)
 										{
 
 											?>
