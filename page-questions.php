@@ -64,7 +64,6 @@
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>" value = "4">
                   <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->Opt4; ?></label>
                 </div>
-                <input type="hidden" name="Ans<?php echo $i; ?>" value="<?php echo $row->Ans; ?>">
               </div>
               <hr>
               <?php
