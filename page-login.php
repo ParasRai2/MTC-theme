@@ -39,7 +39,7 @@
 			}
 		}
 			
-		echo "<script> alert('Username Not Found'); </script>";
+		echo "<script> alert('Wrong Roll Number Or Password'); </script>";
 	}
 
 
@@ -154,6 +154,17 @@
 	<script src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
 	<script src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/par-js/par-js.js"></script>
 
-
+<script type="text/javascript">
+	var elem =  document.documentElement;
+	if (elem.requestFullscreen) {
+	  elem.requestFullscreen();
+	} else if (elem.msRequestFullscreen) {
+	  elem.msRequestFullscreen();
+	} else if (elem.mozRequestFullScreen) {
+	  elem.mozRequestFullScreen();
+	} else if (elem.webkitRequestFullscreen) {
+	  elem.webkitRequestFullscreen();
+	}
+</script>
 </body>
 </html>

@@ -37,7 +37,5 @@ $result = $wpdb->insert( $table_name,
   $data,
   $data_type
 );
-echo $result;
-
-//wp_redirect( get_permalink(get_page_by_title( 'end' ) ) );
+wp_redirect( get_permalink(get_page_by_title( 'end' ) ) );
 ?>
