@@ -7,17 +7,26 @@
   foreach ($data as $row){
     $date = $row->Date; 
     $time = $row->Time;
-    $duration = $row->Duration;
-    $qno = $row->QNo;
+    $duration = $row->Duration_reading;
+    $qno = $row->QNo_reading;
   }
   session_start();
   $id = $_SESSION['id']; 
 
-  $table_name = $wpdb->prefix ."question_table";
+  $table_name = $wpdb->prefix ."reading_question_table";
   $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT ".$qno );
 
+  $blog_query = new WP_Query(array(
+
+    'post_type' => 'question',
+    'post_status' => 'publish'
+
+  ));
+
+
+
 ?>
-<form action="<?php echo get_permalink(get_page_by_title('save-ans')); ?>" method="post" id="subQuestion">
+<form action="<?php echo get_permalink(get_page_by_title('save-reading-ans')); ?>" method="post" id="subQuestion">
 <section class="questions">
   <div class="row">
     <div class="col-md-8">
@@ -29,16 +38,32 @@
         </div>
         <!-- Card content -->
         <div class="card-body card-body-cascade">
+
+
+
+            <div class="container-fluid d-none" id="page1">
+              <div class="question-1">
+                <?php
+                  if($blog_query -> have_posts()){
+                    while ($blog_query -> have_posts()) {
+                      # code...
+                      $blog_query -> the_post();
+                      the_content();
+                    }
+                  }
+                ?>
+              </div>
+            </div>
+          </div>
+
           <?php
               $i=0;
-              $j=1;
+              $j=2;
               foreach ($data as $row) {
                 if(is_int($i/5))
                 { 
-            ?>
-            <div class="container-fluid d-none" id="page<?php echo $j;?>">
-              <?php 
-                $j++;
+                  echo '<div class="container-fluid d-none" id="page'.$j.'">';
+                  $j++;
                 }
               ?>
               <div class="question-1">
@@ -77,14 +102,10 @@
               <?php
                 if(is_int($i/5))
                 { 
-              ?>
-              </div>
-                <?php 
-                  }
-                ?>
-          <?php 
-                } 
-          ?>
+                  echo '</div>'; 
+                }
+              } 
+            ?>
         </div>
 
         <nav>
@@ -146,8 +167,6 @@
   </div>
 </section>
 </form>
-<?php get_footer(); ?>
-
 <script type="text/javascript">
   function dnoneAll()
   {
@@ -194,3 +213,48 @@
     $("#subQuestion").submit();
   }
 </script>
+<!-- JQuery -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
+<!-- Initializations -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
+<!-- data-table -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
+<!-- owl Carousel -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
+<!-- flipclock -->
+<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
+
+<script type="text/javascript">
+    
+    var clock;
+    var currentTime;
+    var startTime;
+    var diff;
+
+
+    $(document).ready(function() {
+      currentTime = new Date();
+      startTime = new Date("<?php echo $date . ' '. $time; ?>");
+      diff = (startTime - currentTime)/1000;
+      diff = diff + <?php echo $duration; ?>*60;
+      clock = $('#nav-clock').FlipClock( parseInt(diff), {
+            clockFace: 'MinuteCounter',
+            countdown: true,
+            callbacks: {
+              stop: function() {
+                alert("Time Up! Auto Submitting");
+                $("#subQuestion").submit();
+              }
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -37,5 +37,5 @@ $result = $wpdb->insert( $table_name,
   $data,
   $data_type
 );
-wp_redirect( get_permalink(get_page_by_title( 'end' ) ) );
+wp_redirect( get_permalink(get_page_by_title( 'questions-reading' ) ) );
 ?>
