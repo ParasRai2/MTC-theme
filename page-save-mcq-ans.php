@@ -4,7 +4,7 @@ $table_name = $wpdb->prefix ."time_table";
 $data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
 foreach ($data as $row){
-  $qno = $row->QNo;
+  $qno = $row->QNo_mcq;
 }
 
 session_start();

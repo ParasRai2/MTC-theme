@@ -7,9 +7,12 @@ foreach ($data as $row){
 	$date = $row->Date; 
 	$time = $row->Time;
 	$duration = $row->Duration;
-	$qno = $row->QNo;
+	$qno_mcq = $row->QNo_mcq;
+	$qno_reading = $row->QNo_reading;
+	$qno_audio = $row->QNo_audio;
 	$pass= $row->Passmark;
 }
+$qno = $qno_mcq + $qno_reading + $qno_audio;
 
 global $wpdb;
 $table_name1 = $wpdb->prefix ."result_table";
@@ -31,8 +34,12 @@ for($j=1;$j<=$qno;$j++)
 	$qid = $data->$s;
 	$s = "ans".$j;
 	$ans = $data->$s;
-
-	$table_name = $wpdb->prefix."question_table";
+	if($j<=$qno_mcq)
+		$table_name = $wpdb->prefix."mcq_question_table";
+	elseif($j>$qno_mcq && $j<=$qno_reading)
+		$table_name = $wpdb->prefix."reading_question_table";
+	else
+		$table_name = $wpdb->prefix."audio_question_table";
 	$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE `ID` = $qid " );
 	$question = $row->Question;
 	$s = "Opt".$ans;

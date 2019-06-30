@@ -17,7 +17,7 @@ echo $sid;
 $table_name = $wpdb->prefix ."result_table";
 $data= array('sid' => $sid);
 $data_type = array("%d");
-$j = $qno;
+$j = $qno+1;
 for ($i = 1; $i<=$qno_audio; $i++ )
 {
   $name = "q".$i."id";
@@ -41,7 +41,7 @@ for ($i = 1; $i<=$qno_audio; $i++ )
 
 $result = $wpdb->update( $table_name, 
   $data,
-  array('sid' => 1),
+  array('sid' => $sid),
   $data_type,
   array('%d')
 );

@@ -54,7 +54,6 @@
                 ?>
               </div>
             </div>
-          </div>
 
           <?php
               $i=0;
@@ -111,7 +110,7 @@
         <nav>
           <ul class="pagination pg-purple justify-content-center">
             <?php
-              for($i=1; $i<= (int)($qno/5); $i++)
+              for($i=1; $i<= (int)($qno/5)+1; $i++)
               {
                 ?>
             <li class="page-item <?php if($i==1) echo 'active'; ?>" id="pagebtn1">
@@ -144,6 +143,10 @@
           }
           </style>
           <div class="flex-container">
+              <button type="button" class="btn btn-info btn-md" onclick="pageclick(1)">Paragraph</button>
+          </div>
+          <hr>
+          <div class="flex-container">
             <div>
               <button type="button" class="btn btn-info btn-md" disabled>Answered</button>
             </div>
@@ -156,7 +159,7 @@
             <?php for ($i=1; $i <= $qno; $i++) {
               ?>
               <div>
-                <button type="button" class="btn btn-danger btn-sm" style="width:70px;" onclick="pageclick(<?php echo (int)((($i-1)/5)+1); ?>)" id="questionbtn<?php echo $i; ?>"><?php echo $i; ?></button>
+                <button type="button" class="btn btn-danger btn-sm" style="width:70px;" onclick="pageclick(<?php echo (int)((($i-1)/5)+2); ?>)" id="questionbtn<?php echo $i; ?>"><?php echo $i; ?></button>
               </div>
             <?php } ?>
           </div>
@@ -167,6 +170,23 @@
   </div>
 </section>
 </form>
+<!-- JQuery -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
+<!-- Initializations -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
+<!-- data-table -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
+<!-- owl Carousel -->
+<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
+<!-- flipclock -->
+<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
+
 <script type="text/javascript">
   function dnoneAll()
   {
@@ -181,8 +201,8 @@
   function pageclick(pid)
   {
     dnoneAll()
+    $("#pagebtn2").addClass("active");
     $("#page"+pid).addClass("d-block")
-    $("#pagebtn"+pid).addClass("active");
   }
 
   $("#page1").removeClass("d-none");
@@ -213,23 +233,6 @@
     $("#subQuestion").submit();
   }
 </script>
-<!-- JQuery -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
-<!-- Initializations -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
-<!-- data-table -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
-<!-- owl Carousel -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
-<!-- flipclock -->
-<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
-
 <script type="text/javascript">
     
     var clock;
