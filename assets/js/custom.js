@@ -252,8 +252,6 @@ function showMyImage1(fileInput) {
 	$('#dtMaterialDesignExample_wrapper .mdb-select').materialSelect();
 	$('#dtMaterialDesignExample_wrapper .dataTables_filter').find('label').remove();
 	});
-	</script>
-	<script type="text/javascript">
 	var ctxL = document.getElementById("lineChart1").getContext('2d');
 	var myLineChart = new Chart(ctxL, {
 	type: 'line',

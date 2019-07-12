@@ -1,13 +1,13 @@
 <?php
 global $wpdb;
 $table_name = $wpdb->prefix ."time_table";
-$data = $wpdb->get_results( "SELECT * FROM $table_name" );
+$data = $wpdb->get_results( "SELECT `qno_mcq`, `qno_reading`, `qno_audio` FROM $table_name" );
 
 foreach ($data as $row){
-  $qno_mcq = $row->QNo_mcq;
-  $qno_reading = $row->QNo_reading;
+  $qno_mcq = $row->qno_mcq;
+  $qno_reading = $row->qno_reading;
   $qno = $qno_mcq+$qno_reading;
-  $qno_audio = $row->QNo_audio;
+  $qno_audio = $row->qno_audio;
 }
 
 session_start();
@@ -15,8 +15,8 @@ $sid = $_SESSION['id'];
 echo $sid;
 
 $table_name = $wpdb->prefix ."result_table";
-$data= array('sid' => $sid);
-$data_type = array("%d");
+$data= array();
+$data_type = array();
 $j = $qno+1;
 for ($i = 1; $i<=$qno_audio; $i++ )
 {

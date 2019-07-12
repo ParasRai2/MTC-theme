@@ -18,12 +18,12 @@
 <?php
 global $wpdb;
   $table_name = $wpdb->prefix ."time_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
+  $data = $wpdb->get_results( "SELECT `date`, `time`, `$row->duration_mcq`, `$row->duration_mcq`, `$row->duration_audio` FROM $table_name" );
 
   foreach ($data as $row){
-    $date = $row->Date; 
-    $time = $row->Time;
-    $duration = $row->Duration;
+    $date = $row->date; 
+    $time = $row->time;
+    $duration = $row->duration_mcq + $row->duration_reading + $row->duration_audio;
   }
 ?>
 <script type="text/javascript">

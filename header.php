@@ -9,7 +9,7 @@
   $data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
   foreach ($data as $row){
-    $qno = $row->QNo;
+    $qno = $row->qno_reading;
   }
 ?>
 <!DOCTYPE html>
@@ -44,7 +44,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <button type="button" class="btn btn-success btn-md waves-effect waves-light"  onclick="submitAns()">Submit</button>
+          <button type="button" class="btn btn-success btn-md waves-effect waves-light"  id="subbtn">Submit</button>
           </a>
         </li>
         <li class="nav-item avatar dropdown">
@@ -52,8 +52,8 @@
             <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-2.jpg" class="rounded-circle z-depth-0" alt="avatar image">
           </a>
           <div class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-5">
-            <a class="dropdown-item"><?php echo $student->Name; ?></a>
-            <a class="dropdown-item"><?php echo $student->Roll_no; ?></a>
+            <a class="dropdown-item"><?php echo $student->name; ?></a>
+            <a class="dropdown-item"><?php echo $student->roll_no; ?></a>
           </div>
         </li>
       </ul>

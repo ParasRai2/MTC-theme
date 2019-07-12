@@ -1,20 +1,19 @@
-<?php 
-  get_header();
-  global $wpdb;
-  $table_name = $wpdb->prefix ."time_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
-  foreach ($data as $row){
-    $date = $row->Date; 
-    $time = $row->Time;
-    $duration = $row->Duration_mcq;
-    $qno = $row->QNo_mcq;
-  }
-  echo $qno;
-  session_start();
-  $id = $_SESSION['id']; 
+<?php
+get_header();
+global $wpdb;
+$table_name = $wpdb->prefix . "time_table";
+$data = $wpdb->get_results("SELECT `date`, `time`, `duration_mcq`, `qno_mcq` FROM $table_name");
+foreach ($data as $row) {
+    $date = $row->date;
+    $time = $row->time;
+    $duration = $row->duration_mcq;
+    $qno = $row->qno_mcq;
+}
+session_start();
+$id = $_SESSION['id'];
 
-  $table_name = $wpdb->prefix ."mcq_question_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT ".$qno );
+$table_name = $wpdb->prefix . "mcq_question_table";
+$data = $wpdb->get_results("SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt4` FROM $table_name ORDER BY RAND() LIMIT " . $qno);
 
 ?>
 <form action="<?php echo get_permalink(get_page_by_title('save-mcq-ans')); ?>" method="post" id="subQuestion">
@@ -30,76 +29,76 @@
         <!-- Card content -->
         <div class="card-body card-body-cascade">
           <?php
-              $i=0;
-              $j=1;
-              foreach ($data as $row) {
-                if(is_int($i/5))
-                { 
-            ?>
-            <div class="container-fluid d-none" id="page<?php echo $j;?>">
-              <?php 
-                $j++;
-                }
-              ?>
+$i = 0;
+$j = 1;
+foreach ($data as $row) {
+    if (is_int($i / 5)) {
+        ?>
+            <div class="container-fluid d-none" id="page<?php echo $j; ?>">
+              <?php
+$j++;
+    }
+    ?>
               <div class="question-1">
-                <h5>Q.<?php 
-                            $i++;
-                            echo $i. ".&nbsp; ";
-                            echo $row->Question; 
-                      ?>
+                <h5>Q.<?php
+$i++;
+    echo $i . ".&nbsp; ";
+    echo $row->question;
+    ?>
                 </h5>
-                <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->ID; ?>">
+                <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->id; ?>">
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-1" name="question<?php echo $i; ?>" value = "1">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-1"><?php echo $row->Opt1; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-1"><?php echo $row->opt1; ?></label>
                 </div>
-               
+
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-2" name="question<?php echo $i; ?>" value="2">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-2"><?php echo $row->Opt2; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-2"><?php echo $row->opt2; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-3" name="question<?php echo $i; ?>" value="3">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-3"><?php echo $row->Opt3; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-3"><?php echo $row->opt3; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>" value = "4">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->Opt4; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->opt4; ?></label>
                 </div>
               </div>
               <hr>
               <?php
-                if(is_int($i/5))
-                { 
-              ?>
+if (is_int($i / 5)) {
+        ?>
               </div>
-                <?php 
-                  }
-                ?>
-          <?php 
-                } 
-          ?>
+                <?php
+}
+    ?>
+          <?php
+}
+?>
         </div>
 
         <nav>
           <ul class="pagination pg-purple justify-content-center">
             <?php
-              for($i=1; $i<= (int)($qno/5); $i++)
-              {
-                ?>
-            <li class="page-item <?php if($i==1) echo 'active'; ?>" id="pagebtn1">
+for ($i = 1; $i <= (int) ($qno / 5); $i++) {
+    ?>
+            <li class="page-item <?php if ($i == 1) {
+        echo 'active';
+    }
+    ?>" id="pagebtn1">
               <a class="page-link waves-effect waves-effect" onclick="pageclick('<?php echo $i; ?>')"><?php echo $i; ?></a>
             </li>
             <?php
-              }
-              ?>
-          
+}
+?>
+
           </ul>
         </nav>
       </div>
@@ -132,12 +131,12 @@
           </div>
           <hr>
           <div class="flex-container">
-            <?php for ($i=1; $i <= $qno; $i++) {
-              ?>
+            <?php for ($i = 1; $i <= $qno; $i++) {
+    ?>
               <div>
-                <button type="button" class="btn btn-danger btn-sm" style="width:70px;" onclick="pageclick(<?php echo (int)((($i-1)/5)+1); ?>)" id="questionbtn<?php echo $i; ?>"><?php echo $i; ?></button>
+                <button type="button" class="btn btn-danger btn-sm" style="width:70px;" onclick="pageclick(<?php echo (int) ((($i - 1) / 5) + 1); ?>)" id="questionbtn<?php echo $i; ?>"><?php echo $i; ?></button>
               </div>
-            <?php } ?>
+            <?php }?>
           </div>
         </div>
 
@@ -148,54 +147,17 @@
 </form>
 
 
-<!-- JQuery -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
-<!-- Initializations -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
-<!-- data-table -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
-<!-- owl Carousel -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
-<!-- flipclock -->
-<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
+<?php include get_template_directory() . '/scripts.php';?>
 
 <script type="text/javascript">
-    
-    var clock;
-    var currentTime;
-    var startTime;
-    var diff;
-
-
-    $(document).ready(function() {
-      currentTime = new Date();
-      startTime = new Date("<?php echo $date . ' '. $time; ?>");
-      diff = (startTime - currentTime)/1000;
-      diff = diff + <?php echo $duration; ?>*60;
-      clock = $('#nav-clock').FlipClock( parseInt(diff), {
-            clockFace: 'MinuteCounter',
-            countdown: true,
-            callbacks: {
-              stop: function() {
-                alert("Time Up! Auto Submitting");
-                $("#subQuestion").submit();
-              }
-            }
-        });
-    });
-
-</script>
-<script type="text/javascript">
+  var clock;
+  var currentTime;
+  var startTime;
+  var diff;
   function dnoneAll()
   {
     var i;
-    for(i=1 ; i<= <?php echo (int)($qno/5); ?>;i++  )
+    for(i=1 ; i<= <?php echo (int) ($qno / 5); ?>;i++  )
     {
       $("#page"+i).removeClass("d-block");
       $("#page"+i).addClass("d-none");
@@ -209,33 +171,46 @@
     $("#pagebtn"+pid).addClass("active");
   }
 
-  $("#page1").removeClass("d-none");
-  $("#page1").addClass("d-block");
-
-
-
-  window.setInterval(function()
-  {
-    var i;
-    var status;
-    var name;
-    var attem=0;
-    for (i = 1; i <= <?php echo $qno; ?>; i++) { 
-      name = "question"+i;
-      status = $('[name="'+name+'"]').is(':checked');
-      if(status)
-      {
-        $('#questionbtn'+i).removeClass("btn-danger");
-        $('#questionbtn'+i).addClass("btn-info");
-        attem++;
+  $(window).ready(function(){
+    currentTime = new Date();
+      startTime = new Date("<?php echo $date . ' ' . $time; ?>");
+      diff = (startTime - currentTime)/1000;
+      diff = diff + <?php echo $duration; ?>*60;
+      clock = $('#nav-clock').FlipClock( parseInt(diff), {
+            clockFace: 'MinuteCounter',
+            countdown: true,
+            callbacks: {
+              stop: function() {
+                alert("Time Up! Auto Submitting");
+                $("#subQuestion").submit();
+              }
+            }
+        });
+    $("#page1").removeClass("d-none");
+    $("#page1").addClass("d-block");
+    window.setInterval(function()
+    {
+      var i;
+      var status;
+      var name;
+      var attem=0;
+      for (i = 1; i <= <?php echo $qno; ?>; i++) {
+        name = "question"+i;
+        status = $('[name="'+name+'"]').is(':checked');
+        if(status)
+        {
+          $('#questionbtn'+i).removeClass("btn-danger");
+          $('#questionbtn'+i).addClass("btn-info");
+          attem++;
+        }
       }
-    }
-    $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
-  },800);
-  function submitAns()
-  {
-    $("#subQuestion").submit();
-  }
+      $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
+    },800);
+
+    $("#subbtn").click( function() {
+      $('#subQuestion').submit();
+    });
+  });
 </script>
 </body>
 </html>

@@ -1,11 +1,11 @@
 <?php
 global $wpdb;
 $table_name = $wpdb->prefix ."time_table";
-$data = $wpdb->get_results( "SELECT * FROM $table_name" );
+$data = $wpdb->get_results( "SELECT `qno_mcq`, `qno_reading` FROM $table_name" );
 
 foreach ($data as $row){
-  $qno_mcq = $row->QNo_mcq;
-  $qno_reading = $row->QNo_reading;
+  $qno_mcq = $row->qno_mcq;
+  $qno_reading = $row->qno_reading;
 }
 
 session_start();

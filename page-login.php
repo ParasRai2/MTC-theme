@@ -1,83 +1,31 @@
 <?php
-
-
-    function theme_get_permalink_by_title( $title ) {
-
-	    // Initialize the permalink value
-	    $permalink = null;
-
-	    // Try to get the page by the incoming title
-	    $page = get_page_by_title( strtolower( $title ) );
-
-	    // If the page exists, then let's get its permalink
-	    if( null != $page ) {
-	        $permalink = get_permalink( $page->ID );
-	    } // end if
-
-	    return $permalink;
-
-	} // end theme_get_permalink_by_title
-
 	$roll = $_POST['roll'];
 	$pass = $_POST['pass'];
-
 	global $wpdb;
-
 	$table_name = $wpdb->prefix . "student_table";
-
-	$data = $wpdb->get_results( "SELECT * FROM $table_name" );
-
-	if(!empty($roll))
-	{ 
-		foreach($data as $row){
-			if( $row->Roll_no == $roll && $row->Password == $pass )
-			{	
-				session_start();
-				$_SESSION['id'] = $row->Id;
-				wp_redirect( theme_get_permalink_by_title( 'student-info' ) );
-				die;
-			}
-		}
+	if(!empty($roll)){
+		$row = $wpdb->get_row( "SELECT `id`, `password` FROM $table_name WHERE roll_no = '$roll'" );
+		if( $row->password == $pass )
+		{	
 			
-		echo "<script> alert('Wrong Roll Number Or Password'); </script>";
+			session_start();
+			$_SESSION['id'] = $row->id;
+			wp_redirect( get_permalink(get_page_by_title( 'student-info' ) )  );
+			die;
+		}
+		echo "<script> alert('Wrong Roll Number Or Password ".$roll." '); </script>";
 	}
-
-
-
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	<title>Login | Login to your user name</title>
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-	<!-- Bootstrap core CSS -->
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Material Design Bootstrap -->
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/mdb.min.css" rel="stylesheet">
-	<!-- Your custom styles (optional) -->
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/style.min.css" rel="stylesheet">
-	<!-- datatables -->
-	<link rel="stylesheet" type="text/css" href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/addons/datatables.min.css">
-	<!-- hover.css -->
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/hover.css" rel="stylesheet">
-	<!-- owl Carousel -->
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/owl.carousel.min.css" rel="stylesheet">
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/owl.theme.default.min.css" rel="stylesheet">
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/custom.css" rel="stylesheet">
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/magnum-custom.css" rel="stylesheet">
-
-	<!-- My Css -->
-
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/par-css/par.css" rel="stylesheet">
-
-	
-	<link href=" <?php echo get_bloginfo("template_url"); ?>/assets/css/magnum-custom.css" rel="stylesheet">
-
-
-
-
+	<?php $custom_logo_id = get_theme_mod( 'custom_logo' );
+		$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+		echo $image; 
+	?>
+	<?php include get_template_directory() . '/styles.php'; ?>
 </head>
 <body class="container-fluid" id="Login-Page">
 
@@ -134,37 +82,21 @@
 		</div>
 	</div>
 
-	<!-- JQuery -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/jquery-3.3.1.min.js"></script>
-	<!-- Bootstrap tooltips -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/popper.min.js"></script>
-	<!-- Bootstrap core JavaScript -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/bootstrap.min.js"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/mdb.min.js"></script>
-	<!-- Initializations -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/custom.js"></script>
-	<!-- data-table -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/addons/datatables.min.js"></script>
-	<!-- owl Carousel -->
-	<script type="text/javascript" src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/owl.carousel.min.js"></script>
+	<?php include get_template_directory() . '/scripts.php'; ?>
 
-	<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>	
-
-	<script src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/fullScreen.js" type="text/javascript"></script>
-	<script src=" <?php echo get_bloginfo("template_url"); ?>/assets/js/par-js/par-js.js"></script>
-
-<script type="text/javascript">
-	var elem =  document.documentElement;
-	if (elem.requestFullscreen) {
-	  elem.requestFullscreen();
-	} else if (elem.msRequestFullscreen) {
-	  elem.msRequestFullscreen();
-	} else if (elem.mozRequestFullScreen) {
-	  elem.mozRequestFullScreen();
-	} else if (elem.webkitRequestFullscreen) {
-	  elem.webkitRequestFullscreen();
-	}
-</script>
+	<script type="text/javascript">
+		$(window).ready( function(){
+			var elem =  document.documentElement;
+			if (elem.requestFullscreen) {
+			elem.requestFullscreen();
+			} else if (elem.msRequestFullscreen) {
+			elem.msRequestFullscreen();
+			} else if (elem.mozRequestFullScreen) {
+			elem.mozRequestFullScreen();
+			} else if (elem.webkitRequestFullscreen) {
+			elem.webkitRequestFullscreen();
+			}
+		});
+	</script>
 </body>
 </html>

@@ -2,19 +2,19 @@
   get_header();
   global $wpdb;
   $table_name = $wpdb->prefix ."time_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name" );
+  $data = $wpdb->get_results( "SELECT `date`, `time`, `duration_audio`, `qno_audio` FROM $table_name" );
 
   foreach ($data as $row){
-    $date = $row->Date; 
-    $time = $row->Time;
-    $duration = $row->Duration_audio;
-    $qno = $row->QNo_audio;
+    $date = $row->date; 
+    $time = $row->time;
+    $duration = $row->duration_audio;
+    $qno = $row->qno_audio;
   }
   session_start();
   $id = $_SESSION['id']; 
 
   $table_name = $wpdb->prefix ."audio_question_table";
-  $data = $wpdb->get_results( "SELECT * FROM $table_name ORDER BY RAND() LIMIT ".$qno );
+  $data = $wpdb->get_results( "SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt4` FROM $table_name ORDER BY RAND() LIMIT ".$qno );
 
 ?>
 <form action="<?php echo get_permalink(get_page_by_title('save-audio-ans')); ?>" method="post" id="subQuestion">
@@ -45,32 +45,32 @@
                 <h5>Q.<?php 
                             $i++;
                             echo $i. ".&nbsp; ";
-                            echo $row->Question; 
+                            echo $row->question; 
                       ?>
                 </h5>
-                <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->ID; ?>">
+                <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->id; ?>">
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-1" name="question<?php echo $i; ?>" value = "1">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-1"><?php echo $row->Opt1; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-1"><?php echo $row->opt1; ?></label>
                 </div>
                
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-2" name="question<?php echo $i; ?>" value="2">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-2"><?php echo $row->Opt2; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-2"><?php echo $row->opt2; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-3" name="question<?php echo $i; ?>" value="3">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-3"><?php echo $row->Opt3; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-3"><?php echo $row->opt3; ?></label>
                 </div>
 
                 <!-- Material inline 1 -->
                 <div class="form-check form-check-inline">
                   <input type="radio" class="q<php echo $i; ?> form-check-input" id="q<?php echo $i; ?>-4" name="question<?php echo $i; ?>" value = "4">
-                  <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->Opt4; ?></label>
+                  <label class="form-check-label" for="q<?php echo $i; ?>-4"><?php echo $row->opt4; ?></label>
                 </div>
               </div>
               <hr>
@@ -146,25 +146,13 @@
   </div>
 </section>
 </form>
-
-
-<!-- JQuery -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/jquery-3.3.1.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/mdb.min.js"></script>
-<!-- Initializations -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/custom.js"></script>
-<!-- data-table -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/addons/datatables.min.js"></script>
-<!-- owl Carousel -->
-<script type="text/javascript" src="<?php echo get_template_directory_uri(); ?>/assets/js/owl.carousel.min.js"></script>
-<!-- flipclock -->
-<script src="<?php echo get_template_directory_uri(); ?>/compiled/flipclock.js"></script>
+<?php include get_template_directory() . '/scripts.php'; ?>
 <script type="text/javascript">
+  $.Event("keypress", { keyCode: 122 });
+  var clock;
+  var currentTime;
+  var startTime;
+  var diff;
   function dnoneAll()
   {
     var i;
@@ -182,44 +170,8 @@
     $("#pagebtn"+pid).addClass("active");
   }
 
-  $("#page1").removeClass("d-none");
-  $("#page1").addClass("d-block");
-
-
-
-  window.setInterval(function()
-  {
-    var i;
-    var status;
-    var name;
-    var attem=0;
-    for (i = 1; i <= <?php echo $qno; ?>; i++) { 
-      name = "question"+i;
-      status = $('[name="'+name+'"]').is(':checked');
-      if(status)
-      {
-        $('#questionbtn'+i).removeClass("btn-danger");
-        $('#questionbtn'+i).addClass("btn-info");
-        attem++;
-      }
-    }
-    $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
-  },800);
-  function submitAns()
-  {
-    $("#subQuestion").submit();
-  }
-</script>
-<script type="text/javascript">
-    
-    var clock;
-    var currentTime;
-    var startTime;
-    var diff;
-
-
-    $(document).ready(function() {
-      currentTime = new Date();
+  $(window).ready(function(){
+    currentTime = new Date();
       startTime = new Date("<?php echo $date . ' '. $time; ?>");
       diff = (startTime - currentTime)/1000;
       diff = diff + <?php echo $duration; ?>*60;
@@ -233,8 +185,31 @@
               }
             }
         });
-    });
+    $("#page1").removeClass("d-none");
+    $("#page1").addClass("d-block");
+    window.setInterval(function()
+    {
+      var i;
+      var status;
+      var name;
+      var attem=0;
+      for (i = 1; i <= <?php echo $qno; ?>; i++) { 
+        name = "question"+i;
+        status = $('[name="'+name+'"]').is(':checked');
+        if(status)
+        {
+          $('#questionbtn'+i).removeClass("btn-danger");
+          $('#questionbtn'+i).addClass("btn-info");
+          attem++;
+        }
+      }
+      $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
+    },800);
 
+    $("#subbtn").click( function() {
+      $('#subQuestion').submit();
+    });
+  });
 </script>
 </body>
 </html>

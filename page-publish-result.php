@@ -4,13 +4,13 @@ $table_name = $wpdb->prefix ."time_table";
 $data = $wpdb->get_results( "SELECT * FROM $table_name" );
 
 foreach ($data as $row){
-	$date = $row->Date; 
-	$time = $row->Time;
-	$duration = $row->Duration;
-	$qno_mcq = $row->QNo_mcq;
-	$qno_reading = $row->QNo_reading;
-	$qno_audio = $row->QNo_audio;
-	$pass= $row->Passmark;
+	$date = $row->date; 
+	$time = $row->time;
+	$duration = $row->duration;
+	$qno_mcq = $row->qno_mcq;
+	$qno_reading = $row->qno_reading;
+	$qno_audio = $row->qno_audio;
+	$pass= $row->passmark;
 }
 $qno = $qno_mcq + $qno_reading + $qno_audio;
 
@@ -21,11 +21,17 @@ $table_name2 = $wpdb->prefix ."student_table";
 $sid = $_POST['id'];
 
 $data = $wpdb->get_row( "SELECT * FROM $table_name1, $table_name2 WHERE $table_name1.`sid` = $table_name2.`id` && $table_name2.`id` = $sid" );
-$name = $data->Name;
-$roll = $data->Roll_no;
+$name = $data->name;
+$roll = $data->roll_no;
 
 $table_data = array();	
 
+$table_name = $wpdb->prefix."mcq_question_table";
+$mcq = $wpdb->get_results( "SELECT * FROM $table_name" );
+$table_name = $wpdb->prefix."reading_question_table";
+$reading = $wpdb->get_results( "SELECT * FROM $table_name" );
+$table_name = $wpdb->prefix."audio_question_table";
+$audio = $wpdb->get_results( "SELECT * FROM $table_name" );
 $submit = 0;
 $correct = 0;
 for($j=1;$j<=$qno;$j++)
@@ -34,24 +40,29 @@ for($j=1;$j<=$qno;$j++)
 	$qid = $data->$s;
 	$s = "ans".$j;
 	$ans = $data->$s;
-	if($j<=$qno_mcq)
-		$table_name = $wpdb->prefix."mcq_question_table";
-	elseif($j>$qno_mcq && $j<=$qno_reading)
-		$table_name = $wpdb->prefix."reading_question_table";
-	else
-		$table_name = $wpdb->prefix."audio_question_table";
-	$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE `ID` = $qid " );
-	$question = $row->Question;
-	$s = "Opt".$ans;
+	if($j<=$qno_mcq){
+		$position = array_search(12, array_column($mcq, 'id'));
+		$row = $mcq[$position];
+	}
+	elseif($j>$qno_mcq && $j<=($qno_reading+$qno_mcq)){
+		$position = array_search(12, array_column($reading, 'id'));
+		$row = $reading[$position];
+	}
+	else{
+		$position = array_search(12, array_column($audio, 'id'));
+		$row = $audio[$position];
+	}
+	$question = $row->question;
+	$s = "opt".$ans;
 	$submittedAns = $row->$s;
-	$cno = $row->Ans;
-	$s = "Opt".$cno;
+	$cno = $row->ans;
+	$s = "opt".$cno;
 	$correctAns = $row->$s;
 	$remark = 'Wrong';
 	if($ans != 0)
 	{
 		$submit++;
-		if($row->Ans == $ans)
+		if($row->ans == $ans)
 		{
 			$correct++;
 			$remark = 'Correct';
@@ -73,27 +84,7 @@ for($j=1;$j<=$qno;$j++)
 <html>
 <head>
 	<title>Result | Publish Result</title>
-	<!-- Font Awesome -->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
-	<!-- Bootstrap core CSS -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/bootstrap.min.css" rel="stylesheet">
-	<!-- Material Design Bootstrap -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/mdb.min.css" rel="stylesheet">
-	<!-- Your custom styles (optional) -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/style.min.css" rel="stylesheet">
-	<!-- datatables -->
-	<link rel="stylesheet" type="text/css" href="<?php echo get_bloginfo("template_url"); ?>/assets/css/addons/datatables.min.css">
-	<!-- hover.css -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/hover.css" rel="stylesheet">
-	<!-- owl Carousel -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/owl.carousel.min.css" rel="stylesheet">
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/owl.theme.default.min.css" rel="stylesheet">
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/custom.css" rel="stylesheet">
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/magnum-custom.css" rel="stylesheet">
-	<!-- My Css -->
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/par-css/par.css" rel="stylesheet">
-	<link href="<?php echo get_bloginfo("template_url"); ?>/assets/css/magnum-custom.css" rel="stylesheet">
-	
+	<?php include get_template_directory() . '/styles.php'; ?>
 </head>
 <body class="container-fluid w-100 h-100" id="Login-Page">
 
@@ -174,14 +165,7 @@ for($j=1;$j<=$qno;$j++)
 		</div>
 	</div>
 
-	<!-- JQuery -->
-	<script type="text/javascript" src="<?php echo get_bloginfo("template_url"); ?>/assets/js/jquery-3.3.1.min.js"></script>
-	<!-- Bootstrap tooltips -->
-	<script type="text/javascript" src="<?php echo get_bloginfo("template_url"); ?>/assets/js/popper.min.js"></script>
-	<!-- Bootstrap core JavaScript -->
-	<script type="text/javascript" src="<?php echo get_bloginfo("template_url"); ?>/assets/js/bootstrap.min.js"></script>
-	<!-- MDB core JavaScript -->
-	<script type="text/javascript" src="<?php echo get_bloginfo("template_url"); ?>/assets/js/mdb.min.js"></script>
+	<?php include get_template_directory() . '/scripts.php'; ?>
 	<script type="text/javascript">
 		function printDiv()
 		{

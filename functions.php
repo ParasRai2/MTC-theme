@@ -16,6 +16,36 @@ function entrance_styles(){
 }
 
 add_action( 'wp_enqueue_scripts','entrance_styles' );
-include(get_template_directory().'/function/anish_function.php');
+
+
+
+
+function my_custom_post_type(){
+  register_post_type('paragraphs', array(
+      'labels'                => array(
+          'name'              => __('Paragraphs'),
+          'singular_name'     => __('Paragraph')
+        ),
+      
+      'has_archive'           => true,
+      'public'                => true,
+      'rewrite'               => array(
+          'slug'              => 'paragraphs'
+        ),
+
+      'show_in_rest'          => true,
+      'supports'              => array(
+          'editor', 'title', 'excerpt', 'thumbnail'
+        ),
+      
+      'taxonomies'            => array(
+          'post_tag', 'category'
+        )
+  ));
+}
+
+add_action('init', 'my_custom_post_type');
+
+
 
 ?>
