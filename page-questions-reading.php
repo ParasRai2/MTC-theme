@@ -1,27 +1,30 @@
 <?php
-get_header();
-global $wpdb;
-$table_name = $wpdb->prefix . "time_table";
-$data = $wpdb->get_results("SELECT `date`, `time`, `duration_reading`, `qno_reading` FROM $table_name");
+    get_header();
+    global $wpdb;
+    $table_name = $wpdb->prefix . "time_table";
+    $data = $wpdb->get_results("SELECT `date`, `time`, `duration_reading`, `qno_reading` FROM $table_name");
 
-foreach ($data as $row) {
-    $date = $row->date;
-    $time = $row->time;
-    $duration = $row->duration_reading;
-    $qno = $row->qno_reading;
-}
-session_start();
-$id = $_SESSION['id'];
+    foreach ($data as $row) {
+        $date = $row->date;
+        $time = $row->time;
+        $duration = $row->duration_reading;
+        $qno = $row->qno_reading;
+    }
+    session_start();
+    $id = $_SESSION['id'];
 
-$table_name = $wpdb->prefix . "reading_question_table";
-$data = $wpdb->get_results("SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt4` FROM $table_name ORDER BY RAND() LIMIT " . $qno);
+    $table_name = $wpdb->prefix . "reading_question_table";
+    $data = $wpdb->get_results("SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt4` FROM $table_name ORDER BY RAND() LIMIT " . $qno);
 
-$question_query = new WP_Query(array(
-    'post_type' => 'paragraphs',
-    'post_status' => 'publish',
-));
+    $question_query = new WP_Query(array(
+        'post_type' => 'paragraphs',
+        'post_status' => 'publish',
+    ));
 
-?>
+    ?>
+<body>
+    <!-- Navbar -->
+    <?php include get_template_directory() . '/nav.php'; ?>
     <form action="<?php echo get_permalink(get_page_by_title('save-reading-ans')); ?>" method="post" id="subQuestion">
         <section class="questions">
             <div class="row">
@@ -173,68 +176,7 @@ for ($i = 1; $i <= (int) ($qno / 5) + 1; $i++) {
             </div>
         </section>
     </form>
-
-    <?php include get_template_directory() . '/scripts.php';?>
-    <script type="text/javascript">
-        function dnoneAll() {
-            var clock;
-            var currentTime;
-            var startTime;
-            var diff;
-            var i;
-            for (i = 1; i <= <?php echo (int) ($qno / 5) + 1; ?>; i++) {
-                $("#page" + i).css("display", "none");
-                $("#pagebtn" + i).removeClass("active");
-            }
-        }
-
-        function pageclick(pid) {
-            dnoneAll()
-            $("#page" + pid).css("display", "block");
-            $("#pagebtn" + pid).addClass("active")
-        }
-
-
-
-        $(window).ready(function() {
-            currentTime = new Date();
-            startTime = new Date("<?php echo $date . ' ' . $time; ?>");
-            diff = (startTime - currentTime) / 1000;
-            diff = diff + <?php echo $duration; ?> * 60;
-            clock = $('#nav-clock').FlipClock(parseInt(diff), {
-                clockFace: 'MinuteCounter',
-                countdown: true,
-                callbacks: {
-                    stop: function() {
-                        alert("Time Up! Auto Submitting");
-                    }
-                }
-            });
-            pageclick(1);
-
-            setInterval(function() {
-                var i;
-                var status;
-                var name;
-                var attem = 0;
-                for (i = 1; i <= <?php echo $qno; ?>; i++) {
-                    name = "question" + i;
-                    status = $('[name="' + name + '"]').is(':checked');
-                    if (status) {
-                        $('#questionbtn' + i).removeClass("btn-danger");
-                        $('#questionbtn' + i).addClass("btn-info");
-                        attem++;
-                    }
-                }
-                $("#attempted").html(attem + "/" + <?php echo $qno; ?>);
-            }, 800);
-
-
-            $("#subbtn").click(function() {
-                $('#subQuestion').submit();
-            });
-        });
-    </script>
+    <?php include get_template_directory() . '/js/reading.php'; ?>
     </body>
 
     </html>

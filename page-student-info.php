@@ -1,29 +1,29 @@
 <?php
+	get_header();
 	session_start();
 	$id = $_SESSION['id']; 
 	global $wpdb;
 	$table_name = $wpdb->prefix . "student_table";
-	$row = $wpdb->get_row( "SELECT * FROM $table_name WHERE id = $id" );
+	$row = $wpdb->get_row( "SELECT `name`, `status`, `roll_no`, `contact`, `dob`, `email`, `photo` FROM $table_name WHERE id = $id" );
 	$name = $row->name;
 	$status = $row->status;
 	$roll = $row->roll_no;
 	$contact = $row->contact;
 	$dob = $row->dob;
 	$email = $row->email;
+	if(!empty($row->photo))
+		$photo = wp_upload_dir()['baseurl'] . $row->photo;
+	else
+		$photo = get_bloginfo("template_url")."/assets/default.jpg";
+
 	$table_name = $wpdb->prefix ."time_table";
-	$data = $wpdb->get_results( "SELECT `duration_mcq`, `duration_reading`, `duration_audio`, qno_mcq, qno_reading, `qno_audio` FROM $table_name" );
-	foreach ($data as $row){
-	  $duration = $row->duration_mcq + $row->duration_reading + $row->duration_audio;
-	  $qno = $row->qno_mcq +  $row->qno_reading + $row->qno_audio;
-	}
+	$row = $wpdb->get_row( "SELECT `duration_mcq`, `duration_reading`, `duration_audio`, qno_mcq, qno_reading, `qno_audio` FROM $table_name WHERE id=1" );
+	$duration = $row->duration_mcq + $row->duration_reading + $row->duration_audio;
+	$qno = $row->qno_mcq +  $row->qno_reading + $row->qno_audio;
+	
 
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Welcome | Candidate Info</title>
-	<?php include get_template_directory() . '/styles.php'; ?>
-</head>
+
 <body class="container-fluid" id="Login-Page">
 
 	<div class="container-fluid text-center Information">
@@ -41,7 +41,7 @@
 						<div class="container-fluid row mb-0">
 						    <div class="col-7 text-center px-5">
 							    <div class="overlay zoom rounded-circle" style="cursor: pointer;">
-									<img src="<?php echo get_bloginfo("template_url"); ?>/assets/default.jpg" class="rounded-circle img-fluid " alt="Default" style="max-height: 150px;">
+									<img src="<?php echo $photo; ?>" class="rounded-circle img-fluid  border border-success" alt="Default" style="height: 150px; width:150px;">
 									<div class="mask flex-center waves-effect waves-light">
 									    <p class="white-text">Zoom effect</p>
 									</div>
@@ -109,6 +109,11 @@
 				</div>
 		</div>
 	</div>
+
+
+
+
+	
 	<?php include get_template_directory() . '/scripts.php'; ?>
 	<script type="text/javascript">
 		$(window).ready( function(){

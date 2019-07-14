@@ -23,6 +23,11 @@ $sid = $_POST['id'];
 $data = $wpdb->get_row( "SELECT * FROM $table_name1, $table_name2 WHERE $table_name1.`sid` = $table_name2.`id` && $table_name2.`id` = $sid" );
 $name = $data->name;
 $roll = $data->roll_no;
+if(!empty($data->photo))
+	$photo = wp_upload_dir()['baseurl'].$data->photo;
+else
+	$photo = get_bloginfo("template_url"). "/assets/default.jpg";
+
 
 $table_data = array();	
 
@@ -104,10 +109,10 @@ for($j=1;$j<=$qno;$j++)
 					<div class="container-fluid row mb-0">
 						<div class="col-12 text-center px-5">
 							<div class="overlay zoom rounded-circle" style="cursor: pointer;">
-								<img src="<?php echo get_bloginfo("template_url"); ?>/assets/default.jpg" class="rounded-circle img-fluid " alt="Default" style="max-height: 120px;">
+								<img src="<?php echo $photo; ?>" class="rounded-circle img-fluid " alt="Default" style="max-height: 120px;">
 							</div>
 							<div class="form-text-color mt-1 h6">
-								<?php echo $name; ?><br>
+								<b><?php echo $name; ?></b><br>
 								<?php echo $roll; ?><br>
 								<span class="h6">
 									<?php 

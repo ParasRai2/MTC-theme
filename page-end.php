@@ -1,34 +1,25 @@
 <?php
+	get_header();
 	session_start();
 	$id = $_SESSION['id']; 
-
 	global $wpdb;
-
 	$table_name = $wpdb->prefix . "student_table";
-
-	$data = $wpdb->get_results( "SELECT `name`, `status`, `roll_no`, `contact`, `dob`, `email` FROM $table_name WHERE Id = $id" );
-
-	if(!empty($data))
+	$row = $wpdb->get_row( "SELECT `name`, `status`, `roll_no`, `contact`, `dob`, `email`, `photo` FROM $table_name WHERE Id = $id" );
+	if(!empty($row))
 	{ 
-		foreach($data as $row){
-			$name = $row->name;
-			$status = $row->status;
-			$roll = $row->roll_no;
-			$contact = $row->contact;
-			$dob = $row->dob;
-			$email = $row->email;
-		}
-			
+		$name = $row->name;
+		$status = $row->status;
+		$roll = $row->roll_no;
+		$contact = $row->contact;
+		$dob = $row->dob;
+		$email = $row->email;
+		if(!empty($row->photo))
+			$photo = wp_upload_dir()['baseurl'] ."/". $row->photo;
+		else
+			$photo = get_bloginfo("template_url")."/assets/default.jpg";
 	}
-
-
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Thank You | <?php echo $name; ?></title>
-	<?php include get_template_directory() . '/styles.php'; ?>
-</head>
+
 <body class="container-fluid" id="Login-Page">
 	<div class="container-fluid text-center Information">
 		<img src="<?php echo get_bloginfo("template_url"); ?>/assets/images/mercury_logo.svg" height="120">
@@ -44,7 +35,7 @@
 						<div class="container-fluid row mb-0">
 						    <div class="col-12 text-center px-5">
 							    <div class="overlay zoom rounded-circle" style="cursor: pointer;">
-									<img src="<?php echo get_bloginfo("template_url"); ?>/assets/default.jpg" class="rounded-circle img-fluid " alt="Default" style="max-height: 150px;">
+									<img src="<?php echo $photo; ?>" class="rounded-circle img-fluid  border border-success" alt="Default" style="height: 150px; width:150px;">
 									<div class="mask flex-center waves-effect waves-light">
 									    <p class="white-text">Zoom effect</p>
 									</div>
@@ -68,16 +59,9 @@
 		</div>
 
 	</div>
-
-
-
 	<?php 
 	 	unset($_SESSION['id']);
  		session_destroy();
  	?>
-	
-	<?php include get_template_directory() . '/scripts.php'; ?>
-
-
 </body>
 </html>

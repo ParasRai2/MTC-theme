@@ -1,11 +1,12 @@
 <?php
+	get_header();
 	$roll = $_POST['roll'];
 	$pass = $_POST['pass'];
 	global $wpdb;
 	$table_name = $wpdb->prefix . "student_table";
 	if(!empty($roll)){
 		$row = $wpdb->get_row( "SELECT `id`, `password` FROM $table_name WHERE roll_no = '$roll'" );
-		if( $row->password == $pass )
+		if( $row->password == base64_encode($pass) )
 		{	
 			
 			session_start();
@@ -15,18 +16,7 @@
 		}
 		echo "<script> alert('Wrong Roll Number Or Password ".$roll." '); </script>";
 	}
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Login | Login to your user name</title>
-	<?php $custom_logo_id = get_theme_mod( 'custom_logo' );
-		$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
-		echo $image; 
-	?>
-	<?php include get_template_directory() . '/styles.php'; ?>
-</head>
+?> 
 <body class="container-fluid" id="Login-Page">
 
 	<div class="row mt-3" id="logo">

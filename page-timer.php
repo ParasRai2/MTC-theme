@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <?php
+	get_header();
 	global $wpdb;
 	$table_name = $wpdb->prefix ."time_table";
 	$data = $wpdb->get_results( "SELECT `date`, `time` FROM $table_name" );
@@ -9,11 +10,8 @@
 		$time = $row->time;
 	}
 ?>
-<html>
-<head>
-	<title>Welcome | Wait for Sometime</title>
-	<?php include get_template_directory() . '/styles.php'; ?>
-</head>
+
+
 <body class="container-fluid" id="Login-Page">
 	<div class="container-fluid text-center Information">
 			<img src="<?php echo get_bloginfo("template_url"); ?>/assets/images/mercury_logo.svg" height="120"><br>
@@ -26,6 +24,11 @@
 	<div class="container-fluid text-center Information" id="Login-Info">
 			Good Luck
 	</div>
+	
+
+
+
+
 	
 	<?php include get_template_directory() . '/scripts.php'; ?>
 

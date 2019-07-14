@@ -16,6 +16,11 @@ $table_name = $wpdb->prefix . "mcq_question_table";
 $data = $wpdb->get_results("SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt4` FROM $table_name ORDER BY RAND() LIMIT " . $qno);
 
 ?>
+<body>
+<!-- Navbar -->
+<?php include get_template_directory() . '/nav.php'; ?>
+
+
 <form action="<?php echo get_permalink(get_page_by_title('save-mcq-ans')); ?>" method="post" id="subQuestion">
 <section class="questions">
   <div class="row">
@@ -29,22 +34,23 @@ $data = $wpdb->get_results("SELECT `id`,`question`, `opt1`, `opt2`, `opt3`, `opt
         <!-- Card content -->
         <div class="card-body card-body-cascade">
           <?php
-$i = 0;
-$j = 1;
-foreach ($data as $row) {
-    if (is_int($i / 5)) {
-        ?>
+            $i = 0;
+            $j = 1;
+            foreach ($data as $row) {
+                if (is_int($i / 5)) {
+                    ?>
             <div class="container-fluid d-none" id="page<?php echo $j; ?>">
               <?php
-$j++;
-    }
-    ?>
+                $j++;
+                    }
+                    ?>
               <div class="question-1">
-                <h5>Q.<?php
-$i++;
-    echo $i . ".&nbsp; ";
-    echo $row->question;
-    ?>
+                <h5>Q.
+                <?php
+                  $i++;
+                      echo $i . ".&nbsp; ";
+                      echo $row->question;
+                      ?>
                 </h5>
                 <input type="hidden" name="q<?php echo $i; ?>id" value="<?php echo $row->id; ?>">
                 <!-- Material inline 1 -->
@@ -73,15 +79,15 @@ $i++;
               </div>
               <hr>
               <?php
-if (is_int($i / 5)) {
-        ?>
+                if (is_int($i / 5)) {
+                        ?>
               </div>
                 <?php
-}
-    ?>
-          <?php
-}
-?>
+                  }
+                      ?>
+                          <?php
+                }
+                ?>
         </div>
 
         <nav>
@@ -147,70 +153,7 @@ for ($i = 1; $i <= (int) ($qno / 5); $i++) {
 </form>
 
 
-<?php include get_template_directory() . '/scripts.php';?>
+<?php include get_template_directory() . '/js/mcq.php';?>
 
-<script type="text/javascript">
-  var clock;
-  var currentTime;
-  var startTime;
-  var diff;
-  function dnoneAll()
-  {
-    var i;
-    for(i=1 ; i<= <?php echo (int) ($qno / 5); ?>;i++  )
-    {
-      $("#page"+i).removeClass("d-block");
-      $("#page"+i).addClass("d-none");
-      $("#pagebtn"+i).removeClass("active");
-    }
-  }
-  function pageclick(pid)
-  {
-    dnoneAll()
-    $("#page"+pid).addClass("d-block")
-    $("#pagebtn"+pid).addClass("active");
-  }
-
-  $(window).ready(function(){
-    currentTime = new Date();
-      startTime = new Date("<?php echo $date . ' ' . $time; ?>");
-      diff = (startTime - currentTime)/1000;
-      diff = diff + <?php echo $duration; ?>*60;
-      clock = $('#nav-clock').FlipClock( parseInt(diff), {
-            clockFace: 'MinuteCounter',
-            countdown: true,
-            callbacks: {
-              stop: function() {
-                alert("Time Up! Auto Submitting");
-                $("#subQuestion").submit();
-              }
-            }
-        });
-    $("#page1").removeClass("d-none");
-    $("#page1").addClass("d-block");
-    window.setInterval(function()
-    {
-      var i;
-      var status;
-      var name;
-      var attem=0;
-      for (i = 1; i <= <?php echo $qno; ?>; i++) {
-        name = "question"+i;
-        status = $('[name="'+name+'"]').is(':checked');
-        if(status)
-        {
-          $('#questionbtn'+i).removeClass("btn-danger");
-          $('#questionbtn'+i).addClass("btn-info");
-          attem++;
-        }
-      }
-      $("#attempted").html(attem+"/"+<?php echo $qno; ?>);
-    },800);
-
-    $("#subbtn").click( function() {
-      $('#subQuestion').submit();
-    });
-  });
-</script>
 </body>
 </html>
